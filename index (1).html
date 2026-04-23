@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ResuméCraft AI — Build Your Future</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">Resumé<span>Craft</span> <em>AI</em></div>
+  <div class="header-actions">
+    <button class="btn btn-outline" onclick="openApiKeyModal()">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      AI Settings
+    </button>
+    <button class="btn btn-gold" onclick="downloadPDF()">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+      Download PDF
+    </button>
+  </div>
+</header>
+
+<!-- MAIN APP -->
+<div class="app-container">
+
+  <!-- ── LEFT: FORM ── -->
+  <aside class="sidebar">
+    <div class="tabs" id="tabBar">
+      <div class="tab active" data-tab="personal">Personal</div>
+      <div class="tab" data-tab="summary">Summary</div>
+      <div class="tab" data-tab="experience">Experience</div>
+      <div class="tab" data-tab="education">Education</div>
+      <div class="tab" data-tab="skills">Skills</div>
+      <div class="tab" data-tab="projects">Projects</div>
+      <div class="tab" data-tab="certs">Certs</div>
+      <div class="tab" data-tab="design">Design</div>
+    </div>
+
+    <!-- PERSONAL -->
+    <div class="tab-content active" id="tab-personal">
+      <div>
+        <div class="section-title">Personal Information</div>
+        <div class="section-subtitle">Your contact details appear at the top of the resume.</div>
+      </div>
+      <div class="form-group">
+        <label>Full Name *</label>
+        <input type="text" id="f-name" placeholder="Alex Johnson" oninput="renderResume()">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Email *</label>
+          <input type="email" id="f-email" placeholder="alex@email.com" oninput="renderResume()">
+        </div>
+        <div class="form-group">
+          <label>Phone</label>
+          <input type="tel" id="f-phone" placeholder="+1 555 000 0000" oninput="renderResume()">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>LinkedIn</label>
+          <input type="text" id="f-linkedin" placeholder="linkedin.com/in/alex" oninput="renderResume()">
+        </div>
+        <div class="form-group">
+          <label>GitHub / Portfolio</label>
+          <input type="text" id="f-github" placeholder="github.com/alex" oninput="renderResume()">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Location</label>
+        <input type="text" id="f-location" placeholder="San Francisco, CA" oninput="renderResume()">
+      </div>
+      <div class="form-group">
+        <label>Job Title / Role</label>
+        <input type="text" id="f-jobtitle" placeholder="Senior Software Engineer" oninput="renderResume()">
+      </div>
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="tab-content" id="tab-summary">
+      <div>
+        <div class="section-title">Professional Summary</div>
+        <div class="section-subtitle">A brief pitch about who you are and what you bring.</div>
+      </div>
+      <div class="form-group">
+        <label>Summary</label>
+        <textarea id="f-summary" rows="5" placeholder="Write 2–3 sentences about your background, key skills, and career goals..." oninput="renderResume()"></textarea>
+      </div>
+      <button class="btn btn-ai" onclick="enhanceSummary()" id="btnEnhanceSummary">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L9.19 9.19 2 12l7.19 2.81L12 22l2.81-7.19L22 12l-7.19-2.81z"/></svg>
+        AI Enhance Summary
+      </button>
+      <div class="ai-status" id="ai-summary-status"></div>
+    </div>
+
+    <!-- EXPERIENCE -->
+    <div class="tab-content" id="tab-experience">
+      <div>
+        <div class="section-title">Work Experience</div>
+        <div class="section-subtitle">Most recent first.</div>
+      </div>
+      <div id="experience-list"></div>
+      <button class="add-entry-btn" onclick="addEntry('experience')">
+        <span>+</span> Add Experience
+      </button>
+    </div>
+
+    <!-- EDUCATION -->
+    <div class="tab-content" id="tab-education">
+      <div>
+        <div class="section-title">Education</div>
+        <div class="section-subtitle">Degrees, courses, bootcamps.</div>
+      </div>
+      <div id="education-list"></div>
+      <button class="add-entry-btn" onclick="addEntry('education')">
+        <span>+</span> Add Education
+      </button>
+    </div>
+
+    <!-- SKILLS -->
+    <div class="tab-content" id="tab-skills">
+      <div>
+        <div class="section-title">Skills</div>
+        <div class="section-subtitle">Press Enter or comma to add a skill tag.</div>
+      </div>
+      <div class="form-group">
+        <label>Technical Skills</label>
+        <div class="skills-tags" id="skills-tags" onclick="document.getElementById('skill-input').focus()">
+          <input class="tag-input" id="skill-input" placeholder="e.g. React, Python…" onkeydown="handleSkillInput(event)">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Soft Skills</label>
+        <div class="skills-tags" id="soft-skills-tags" onclick="document.getElementById('soft-skill-input').focus()">
+          <input class="tag-input" id="soft-skill-input" placeholder="e.g. Leadership, Communication…" onkeydown="handleSoftSkillInput(event)">
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECTS -->
+    <div class="tab-content" id="tab-projects">
+      <div>
+        <div class="section-title">Projects</div>
+        <div class="section-subtitle">Personal, open-source, academic projects.</div>
+      </div>
+      <div id="projects-list"></div>
+      <button class="add-entry-btn" onclick="addEntry('projects')">
+        <span>+</span> Add Project
+      </button>
+    </div>
+
+    <!-- CERTS -->
+    <div class="tab-content" id="tab-certs">
+      <div>
+        <div class="section-title">Certifications</div>
+        <div class="section-subtitle">Professional certificates and courses.</div>
+      </div>
+      <div id="certs-list"></div>
+      <button class="add-entry-btn" onclick="addEntry('certs')">
+        <span>+</span> Add Certification
+      </button>
+    </div>
+
+    <!-- DESIGN -->
+    <div class="tab-content" id="tab-design">
+      <div>
+        <div class="section-title">Resume Template</div>
+        <div class="section-subtitle">Choose a style. Instant preview.</div>
+      </div>
+      <div class="template-grid">
+        <div class="template-card selected" data-tpl="modern" onclick="selectTemplate('modern')">
+          <div class="template-thumb thumb-modern">
+            <div class="thumb-lines">
+              <div class="tl-h"></div>
+              <div class="tl-s"></div>
+              <div class="tl-s w60"></div>
+              <div class="tl-divider"></div>
+              <div class="tl-b"></div>
+              <div class="tl-b w80"></div>
+            
+            </div>
+          </div>
+          <div class="template-name">Modern Pro</div>
+          <div class="template-desc">Dark header · Gold accents</div>
+        </div>
+        <div class="template-card" data-tpl="minimal" onclick="selectTemplate('minimal')">
+          <div class="template-thumb thumb-minimal">
+            <div class="thumb-lines">
+              <div class="tl-h" style="background:#111;height:2px;width:100%;"></div>
+              <div style="height:6px"></div>
+              <div class="tl-s" style="background:#111;"></div>
+              <div class="tl-s w60" style="background:#aaa;"></div>
+              <div class="tl-divider" style="background:#eee;"></div>
+              <div class="tl-b" style="background:#ccc;"></div>
+              <div class="tl-b w80" style="background:#ddd;"></div>
+            </div>
+          </div>
+          <div class="template-name">Simple Minimal</div>
+          <div class="template-desc">Clean & classic</div>
+        </div>
+        <div class="template-card" data-tpl="tech" onclick="selectTemplate('tech')">
+          <div class="template-thumb thumb-tech">
+            <div class="thumb-lines">
+              <div class="tl-h" style="background:#38bdf8;height:3px;width:30%;margin-bottom:6px;"></div>
+              <div class="tl-s" style="background:#38bdf8;width:70%;"></div>
+              <div class="tl-s w60" style="background:#64748b;"></div>
+              <div style="height:8px"></div>
+              <div class="tl-b" style="background:#334155;"></div>
+              <div class="tl-b w80" style="background:#1e293b;"></div>
+            </div>
+          </div>
+          <div class="template-name">Tech Dev</div>
+          <div class="template-desc">Developer aesthetic</div>
+        </div>
+        <div class="template-card" data-tpl="executive" onclick="selectTemplate('executive')">
+          <div class="template-thumb thumb-executive">
+            <div class="thumb-lines">
+              <div class="tl-h" style="background:#fff;height:10px;width:60%;margin-bottom:4px;"></div>
+              <div class="tl-s" style="background:rgba(255,255,255,.5);"></div>
+              <div style="height:6px"></div>
+              <div class="tl-b" style="background:rgba(255,255,255,.3);"></div>
+              <div class="tl-b w80" style="background:rgba(255,255,255,.2);"></div>
+            </div>
+          </div>
+          <div class="template-name">Executive</div>
+          <div class="template-desc">Navy · Prestige</div>
+        </div>
+        <div class="template-card" data-tpl="creative" onclick="selectTemplate('creative')">
+          <div class="template-thumb thumb-creative">
+            <div class="thumb-lines">
+              <div style="display:flex;gap:4px;align-items:flex-start;">
+                <div style="width:35%;display:flex;flex-direction:column;gap:3px;">
+                  <div style="height:8px;background:#ff6b6b;border-radius:2px;"></div>
+                  <div style="height:3px;background:rgba(255,255,255,.4);border-radius:1px;"></div>
+                  <div style="height:3px;background:rgba(255,255,255,.3);border-radius:1px;width:80%;"></div>
+                </div>
+                <div style="flex:1;display:flex;flex-direction:column;gap:3px;">
+                  <div style="height:3px;background:rgba(255,255,255,.3);border-radius:1px;"></div>
+                  <div style="height:3px;background:rgba(255,255,255,.2);border-radius:1px;width:70%;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="template-name">Creative Split</div>
+          <div class="template-desc">Bold sidebar · Vibrant</div>
+        </div>
+        <div class="template-card" data-tpl="elegant" onclick="selectTemplate('elegant')">
+          <div class="template-thumb thumb-elegant">
+            <div class="thumb-lines">
+              <div class="tl-h" style="background:#2c2c2c;height:6px;width:50%;margin:0 auto 6px;"></div>
+              <div class="tl-s" style="background:#8b7355;width:70%;margin:0 auto;"></div>
+              <div style="height:4px;background:#d4af7a;width:30px;margin:4px auto;border-radius:1px;"></div>
+              <div class="tl-b" style="background:#ccc;"></div>
+              <div class="tl-b w80" style="background:#ddd;"></div>
+            </div>
+          </div>
+          <div class="template-name">Elegant Classic</div>
+          <div class="template-desc">Serif · Timeless</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── RIGHT: PREVIEW ── -->
+  <main class="preview-panel">
+    <div class="preview-toolbar">
+      <div class="preview-toolbar-left">
+        <span class="live-dot"></span>
+        Live Preview
+      </div>
+      <div class="preview-toolbar-right">
+        <button class="btn btn-ghost btn-sm" onclick="fillSampleData()">
+          Load Sample
+        </button>
+        <button class="btn btn-gold btn-sm" onclick="downloadPDF()">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          Download PDF
+        </button>
+      </div>
+    </div>
+    <div class="resume-paper tpl-modern" id="resume-preview">
+      <!-- Rendered dynamically -->
+    </div>
+  </main>
+</div>
+
+<!-- API KEY MODAL -->
+<div class="modal-overlay" id="apiKeyModal">
+  <div class="modal">
+    <div class="modal-icon">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg>
+    </div>
+    <h2>AI Configuration</h2>
+    <p>Enter your Hugging Face API token to enable AI-powered resume enhancements. Your token is stored only in your browser session and never sent to our servers.</p>
+    <div class="form-group">
+      <label>Hugging Face API Token</label>
+      <input type="password" id="apiKeyInput" placeholder="hf_..." style="font-family:'JetBrains Mono',monospace;letter-spacing:.05em;">
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeApiKeyModal()">Cancel</button>
+      <button class="btn btn-ai" onclick="saveApiKey()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L9.19 9.19 2 12l7.19 2.81L12 22l2.81-7.19L22 12l-7.19-2.81z"/></svg>
+        Save & Enable AI
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
