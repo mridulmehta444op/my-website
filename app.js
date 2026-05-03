@@ -678,6 +678,87 @@ async function enhanceDesc(type, idx) {
 }
 
 // ════════════════════════════════════════
+//  JOB DESCRIPTION TAILOR (NEW FEATURE)
+// ════════════════════════════════════════
+let tailoredSummaryText = '';
+
+async function tailorToJob() {
+  const btn = document.getElementById('btnTailorJob');
+  const status = document.getElementById('ai-jobdesc-status');
+  const panel = document.getElementById('job-match-panel');
+  const body  = document.getElementById('job-match-body');
+
+  const jobDesc    = document.getElementById('f-jobdesc').value.trim();
+  const targetJob  = document.getElementById('f-targetjob').value.trim();
+  const currSummary = document.getElementById('f-summary').value.trim();
+
+  if (!state.apiKey) {
+    showToast('⚙ Please add your API key in AI Settings first.');
+    openApiKeyModal();
+    return;
+  }
+  if (!jobDesc) {
+    showToast('Please paste a job description first.');
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Tailoring…';
+  status.textContent = 'AI is analyzing the job description and tailoring your resume…';
+  panel.style.display = 'none';
+
+  const currentSummarySection = currSummary
+    ? `My current summary: "${currSummary}"\n\n`
+    : '';
+
+  const targetJobSection = targetJob
+    ? `Target Role: ${targetJob}\n\n`
+    : '';
+
+  const prompt = `You are a professional resume writer and ATS (Applicant Tracking System) expert.
+
+${targetJobSection}${currentSummarySection}Job Description:
+"${jobDesc}"
+
+Task: Write a powerful, ATS-optimized professional summary (3-4 sentences max) that:
+1. Incorporates key skills and keywords from the job description
+2. Highlights relevant experience that matches the role requirements
+3. Uses strong action verbs and quantifiable language
+4. Is tailored specifically to this job posting
+
+Return ONLY the improved summary text, nothing else. No labels, no explanations.`;
+
+  const result = await callAI(prompt);
+
+  if (result) {
+    tailoredSummaryText = result.trim();
+    body.textContent = tailoredSummaryText;
+    panel.style.display = 'block';
+    status.textContent = '✓ AI has tailored your resume to the job description!';
+    showToast('✦ Resume tailored to job description!');
+  } else {
+    status.textContent = '✗ Tailoring failed. Check your API key and try again.';
+    showToast('AI tailoring failed. Please try again.');
+  }
+
+  btn.disabled = false;
+  btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L9.19 9.19 2 12l7.19 2.81L12 22l2.81-7.19L22 12l-7.19-2.81z"/></svg> AI Tailor Resume to Job`;
+}
+
+function applyTailoredSummary() {
+  if (!tailoredSummaryText) return;
+  document.getElementById('f-summary').value = tailoredSummaryText;
+  state.summary = tailoredSummaryText;
+  renderResume();
+  showToast('✓ Tailored summary applied to your resume!');
+  // Switch to summary tab so user can see it
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelector('[data-tab="summary"]').classList.add('active');
+  document.getElementById('tab-summary').classList.add('active');
+}
+
+// ════════════════════════════════════════
 //  API KEY MODAL
 // ════════════════════════════════════════
 function openApiKeyModal() {
