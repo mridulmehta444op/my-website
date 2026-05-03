@@ -16,7 +16,7 @@
   <div class="logo">Resumé<span>Craft</span> <em>AI</em></div>
   <div class="header-actions">
     <button class="btn btn-outline" onclick="openApiKeyModal()">
-      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
       AI Settings
     </button>
     <button class="btn btn-gold" onclick="downloadPDF()">
@@ -34,6 +34,7 @@
     <div class="tabs" id="tabBar">
       <div class="tab active" data-tab="personal">Personal</div>
       <div class="tab" data-tab="summary">Summary</div>
+      <div class="tab" data-tab="jobdesc">Job Match</div>
       <div class="tab" data-tab="experience">Experience</div>
       <div class="tab" data-tab="education">Education</div>
       <div class="tab" data-tab="skills">Skills</div>
@@ -97,6 +98,49 @@
         AI Enhance Summary
       </button>
       <div class="ai-status" id="ai-summary-status"></div>
+    </div>
+
+    <!-- ✅ NEW: JOB DESCRIPTION TAB -->
+    <div class="tab-content" id="tab-jobdesc">
+      <div>
+        <div class="section-title">Job Description Matcher</div>
+        <div class="section-subtitle">Paste a job description and let AI tailor your resume summary to match it perfectly.</div>
+      </div>
+      <div class="form-group">
+        <label>Target Job Title</label>
+        <input type="text" id="f-targetjob" placeholder="e.g. Frontend Developer at Google" oninput="renderResume()">
+      </div>
+      <div class="form-group">
+        <label>Paste Job Description *</label>
+        <textarea id="f-jobdesc" rows="8" placeholder="Paste the full job description here...&#10;&#10;e.g. We are looking for a skilled React developer with 3+ years experience in building scalable web applications. Must have strong knowledge of TypeScript, REST APIs, and agile methodologies..."></textarea>
+      </div>
+      <button class="btn btn-ai" onclick="tailorToJob()" id="btnTailorJob">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L9.19 9.19 2 12l7.19 2.81L12 22l2.81-7.19L22 12l-7.19-2.81z"/></svg>
+        AI Tailor Resume to Job
+      </button>
+      <div class="ai-status" id="ai-jobdesc-status"></div>
+
+      <!-- Job match score panel -->
+      <div class="job-match-panel" id="job-match-panel" style="display:none;">
+        <div class="job-match-header">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="color:var(--gold)"><path d="M12 2L9.19 9.19 2 12l7.19 2.81L12 22l2.81-7.19L22 12l-7.19-2.81z"/></svg>
+          AI Tailoring Result
+        </div>
+        <div class="job-match-body" id="job-match-body"></div>
+        <button class="btn btn-ghost btn-sm" style="margin-top:.75rem;width:100%;" onclick="applyTailoredSummary()">
+          ✓ Apply to My Resume Summary
+        </button>
+      </div>
+
+      <div class="jobdesc-tip">
+        <strong>💡 How it works:</strong>
+        <ol style="margin-top:.5rem;padding-left:1.2rem;font-size:.75rem;line-height:1.8;color:var(--muted);">
+          <li>Paste the job description above</li>
+          <li>Click "AI Tailor Resume to Job"</li>
+          <li>AI rewrites your summary to match the job's keywords and requirements</li>
+          <li>Click "Apply to My Resume Summary" to update your resume</li>
+        </ol>
+      </div>
     </div>
 
     <!-- EXPERIENCE -->
@@ -183,7 +227,6 @@
               <div class="tl-divider"></div>
               <div class="tl-b"></div>
               <div class="tl-b w80"></div>
-            
             </div>
           </div>
           <div class="template-name">Modern Pro</div>
