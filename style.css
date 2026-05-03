@@ -1014,3 +1014,50 @@ input::placeholder, textarea::placeholder { color: var(--muted2); }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--muted2); }
+
+/* ════════════════════════════
+   JOB DESCRIPTION TAB (NEW)
+════════════════════════════ */
+.job-match-panel {
+  background: linear-gradient(135deg, #f0f4ff 0%, #fdf4e3 100%);
+  border: 1px solid rgba(200,151,43,.3);
+  border-radius: var(--radius-lg);
+  padding: 1rem 1.1rem;
+  margin-top: .25rem;
+}
+.job-match-header {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  font-size: .78rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: .65rem;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.job-match-body {
+  font-size: .83rem;
+  color: var(--slate);
+  line-height: 1.65;
+  white-space: pre-wrap;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: .75rem .9rem;
+  max-height: 180px;
+  overflow-y: auto;
+}
+.jobdesc-tip {
+  background: var(--cream);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius);
+  padding: .85rem 1rem;
+  font-size: .78rem;
+  color: var(--slate);
+  line-height: 1.6;
+}
+.jobdesc-tip strong {
+  color: var(--ink);
+  font-size: .8rem;
+}
